@@ -1,3 +1,4 @@
+use js_sys::Reflect;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
@@ -12,12 +13,13 @@ impl FileHandle {
         self.0.name()
     }
 
-    // Path is not supported in browsers.
-    // Use read() instead.
-    // pub fn path(&self) -> &Path {
-    //     // compile_error!();
-    //     unimplemented!("Path is not supported in browsers");
-    // }
+    pub fn webkit_path(&self) -> String {
+        let webkit_path = Reflect::get(&self.0, &JsValue::from_str("webkitRelativePath"))
+            .map(|x| x.as_string())
+            .unwrap_or(self.file_name().into())
+            .unwrap();
+        webkit_path
+    }
 
     pub async fn read(&self) -> Vec<u8> {
         let promise = js_sys::Promise::new(&mut move |res, _rej| {

@@ -54,6 +54,7 @@ gobject-sys = { version = "0.16", optional = true }
 wasm-bindgen = "0.2.69"
 js-sys = "0.3.46"
 web-sys = { version = "0.3.46", features = [
+  'console',
   'Document',
   'Element',
   'HtmlInputElement',
@@ -62,6 +63,7 @@ web-sys = { version = "0.3.46", features = [
   'File',
   'FileList',
   'FileReader',
+  'FileSystemDirectoryReader',
 ] }
 wasm-bindgen-futures = "0.4.19"
 

@@ -204,7 +204,7 @@ impl AsyncFileDialog {
 }
 
 use crate::backend::AsyncFilePickerDialogImpl;
-#[cfg(not(target_arch = "wasm32"))]
+//#[cfg(not(target_arch = "wasm32"))]
 use crate::backend::{AsyncFileSaveDialogImpl, AsyncFolderPickerDialogImpl};
 
 use std::future::Future;
@@ -220,7 +220,6 @@ impl AsyncFileDialog {
         AsyncFilePickerDialogImpl::pick_files_async(self.file_dialog)
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
     /// Pick one folder
     ///
     /// Does not exist in `WASM32`
@@ -228,7 +227,6 @@ impl AsyncFileDialog {
         AsyncFolderPickerDialogImpl::pick_folder_async(self.file_dialog)
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
     /// Pick multiple folders
     ///
     /// Does not exist in `WASM32`

@@ -137,6 +137,24 @@ impl WasmDialog {
 
         self.get_result()
     }
+
+    async fn pick_folder(self) -> Option<FileHandle> {
+        self.input.set_webkitdirectory(true);
+
+        self.show().await;
+
+        self.get_result()
+    }
+
+    async fn pick_folders(self) -> Option<Vec<FileHandle>> {
+        self.input.set_webkitdirectory(true);
+        self.input.set_multiple(true);
+
+        self.show().await;
+
+        self.get_results()
+
+    }
 }
 
 impl Drop for WasmDialog {
@@ -193,5 +211,17 @@ impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<bool> {
         let val = MessageDialogImpl::show(self);
         Box::pin(std::future::ready(val))
+    }
+}
+
+use super::AsyncFolderPickerDialogImpl;
+impl AsyncFolderPickerDialogImpl for FileDialog {
+    fn pick_folder_async(self) -> DialogFutureType<Option<FileHandle>> {
+        let dialog = WasmDialog::new(&self);
+        Box::pin(dialog.pick_folder())
+    }
+    fn pick_folders_async(self) -> DialogFutureType<Option<Vec<FileHandle>>> {
+        let dialog = WasmDialog::new(&self);
+        Box::pin(dialog.pick_folders())
     }
 }
